@@ -19,12 +19,12 @@ const client = Instructor({
 })
 
 const document = z.object({
-    heading: z.string(),
-    description: z.string()
+    heading: z.string().describe("heading"),
+    description: z.string().describe("description")
 })
 
 const documentSchema = z.object({
-   documents: z.array(document)
+   documents: z.array(document).describe("A list of documents containing heading and description")
 })
 
 function loadJsonFile(filePath: string): any {
@@ -36,7 +36,7 @@ function loadJsonFile(filePath: string): any {
 async function requestContent(query: string = ""): Promise<Document[]> {
     const data = loadJsonFile("data/data.json")
     const contentSelected = await client.chat.completions.create({
-        messages: [{ role: "user", content: `This is your knowlege: ${JSON.stringify(data)}. Answer the question: ${query} from your knowledge base.` }],
+        messages: [{ role: "user", content: `This is your knowledge: ${JSON.stringify(data)}. Answer the question: ${query} from your knowledge base. Return multiple documents` }],
         model: "gpt-4o",
         response_model: {
             schema: documentSchema,
