@@ -38,4 +38,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 #Local development
 To run a funciton in terminal using node run the follwoing command: 
-`npx tsx src/libai.ts`                                        
+`npx tsx src/lib/ai.ts`                                        
