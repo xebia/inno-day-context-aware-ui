@@ -39,7 +39,7 @@ function loadJsonFile(filePath: string): any {
 async function requestContent(query: string = ""): Promise<Entry[]> {
     const data = loadJsonFile("data/data.json")
     const contentSelected = await client.chat.completions.create({
-        messages: [{ role: "user", content: `This is your knowlege: ${JSON.stringify(data)}. Return the entries that best match the query: ${query}, in order of relevance.` }],
+        messages: [{ role: "user", content: `This is your knowlege: ${JSON.stringify(data)}. Answer the question: ${query} from your knowledge base.` }],
         model: "gpt-4o",
         response_model: {
             schema: entrySchema,
