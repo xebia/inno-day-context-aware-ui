@@ -1,3 +1,5 @@
+"use server";
+
 import "dotenv/config"
 import Instructor from "@instructor-ai/instructor";
 import OpenAI from "openai"
@@ -23,9 +25,9 @@ const responseSchema = z.object({
     components: z.array(z.string()).describe("The list of components names")
 })
 
-async function main() {
-    const user = await client.chat.completions.create({
-        messages: [{ role: "user", content: "Here is the list of available components: [company_values, customer_cases, about]. Select 2" }],
+async function requestContent(query: string = ""): Promise<string[]> {
+    const contentSelected = await client.chat.completions.create({
+        messages: [{ role: "user", content: `Here is the list of available components: [company_values, customer_cases, about]. Select 2 , based on the query string: ${query}` }],
         model: "gpt-4o",
         response_model: {
             schema: responseSchema,
@@ -34,8 +36,9 @@ async function main() {
         max_retries: 3,
     })
 
-    console.log(user)
+    console.log(contentSelected)
+    return contentSelected.components
     // { age: 30, name: "Jason Liu" }
 }
 
-main()
+export default requestContent

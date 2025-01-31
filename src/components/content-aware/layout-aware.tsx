@@ -1,10 +1,27 @@
+"use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import requestContent from '../../lib/ai';
 
 interface LayoutAwareProps {
     searchBarValue?: string;
 }
 
 export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
-    return <div>{searchBarValue}</div>;
+    
+    const [response, setResponse] = useState<string[] | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await requestContent(searchBarValue);
+            setResponse(response);
+        };
+
+        if (searchBarValue) {
+            fetchData();
+        }
+    }, [searchBarValue]);
+
+    return <div>{response}</div>;
+
 }
