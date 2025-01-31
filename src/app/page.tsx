@@ -1,6 +1,8 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { ContentAware } from "@/components/content-aware/content-aware";
+
+
 
 export default function Home() {
   return (
@@ -14,7 +16,9 @@ export default function Home() {
           height={38}
           priority
         />
-      <Button>Click me</Button>
+
+        <ContentAware />
+
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <div
