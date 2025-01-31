@@ -16,7 +16,7 @@ export function ContentAware() {
         setSearchValue(value);
     };
     return <div>
-        <div className="w-full text-center mb-4">
+        <div className="w-full text-center m-4">
             <p className="italic">How can we help you today?</p>
         </div>
         <div className='w-full flex justify-center m-4'>

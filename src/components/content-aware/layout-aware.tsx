@@ -36,18 +36,19 @@ export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
     }, [searchBarValue]);
 
     return <div>
-        { //Check if message failed
+        {
             (response != null)
                 ? response?.map((item, index) =>
-                    <Card key={index}>
-                        <CardHeader>
-                            <CardTitle>{item.heading}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p>{item.description}</p>
-                        </CardContent>
-                    </Card>)
-                : (isLoading ? <div className='w-full flex justify-center'><LoadingSpinner size={64} /> </div>: null)
+                    <div key={index} className='m-4'>
+                        <Card  >
+                            <CardHeader>
+                                <CardTitle>{item.heading}</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p>{item.description}</p>
+                            </CardContent>
+                        </Card></div>)
+                : (isLoading ? <div className='w-full flex justify-center'><LoadingSpinner size={64} /> </div> : null)
         }
     </div>
 
