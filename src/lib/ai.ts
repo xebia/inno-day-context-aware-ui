@@ -20,17 +20,18 @@ const UserSchema = z.object({
 })
 
 const responseSchema = z.object({
-    components: z.array(z.string()).describe("The components to render")
+    components: z.array(z.string()).describe("The list of components names")
 })
 
 async function main() {
     const user = await client.chat.completions.create({
-        messages: [{ role: "user", content: "Jason Liu is 30 years old" }],
+        messages: [{ role: "user", content: "Here is the list of available components: [company_values, customer_cases, about]. Select 2" }],
         model: "gpt-4o",
         response_model: {
-            schema: UserSchema,
-            name: "User"
-        }
+            schema: responseSchema,
+            name: "response"
+        },
+        max_retries: 3,
     })
 
     console.log(user)
