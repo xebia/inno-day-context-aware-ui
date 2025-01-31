@@ -6,7 +6,7 @@ import OpenAI from "openai"
 import { z } from "zod"
 import path from "path";
 import fs from "fs";
-import { Entry } from "./types/Entry";
+import { Document } from "./types/Document";
 
 const oai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY ?? undefined,
@@ -18,17 +18,14 @@ const client = Instructor({
     mode: "FUNCTIONS"
 })
 
-const entry = z.object({
-    title: z.string(),
-    content: z.string()
+const document = z.object({
+    heading: z.string(),
+    description: z.string()
 })
 
-
-const entrySchema = z.object({
-   entries: z.array(entry)
+const documentSchema = z.object({
+   documents: z.array(document)
 })
-
-
 
 function loadJsonFile(filePath: string): any {
     const absolutePath = path.resolve(filePath);
@@ -36,21 +33,20 @@ function loadJsonFile(filePath: string): any {
     return JSON.parse(fileContent);
 }
 
-async function requestContent(query: string = ""): Promise<Entry[]> {
+async function requestContent(query: string = ""): Promise<Document[]> {
     const data = loadJsonFile("data/data.json")
     const contentSelected = await client.chat.completions.create({
         messages: [{ role: "user", content: `This is your knowlege: ${JSON.stringify(data)}. Answer the question: ${query} from your knowledge base.` }],
         model: "gpt-4o",
         response_model: {
-            schema: entrySchema,
+            schema: documentSchema,
             name: "response"
         },
         max_retries: 3,
     })
 
     console.log(contentSelected)
-    return contentSelected.entries
-    // { age: 30, name: "Jason Liu" }
+    return contentSelected.documents
 }
 
 export default requestContent

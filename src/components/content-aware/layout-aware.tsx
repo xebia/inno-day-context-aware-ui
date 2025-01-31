@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import requestContent from '../../lib/ai';
-import { Entry } from '@/lib/types/Entry';
+import { Document } from '@/lib/types/Document';
 import { LoadingSpinner } from '../ui/loading-spinner';
 import {
     Card,
@@ -17,7 +17,7 @@ interface LayoutAwareProps {
 
 export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
 
-    const [response, setResponse] = useState<Entry[] | null>(null);
+    const [response, setResponse] = useState<Document[] | null>(null);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -41,10 +41,10 @@ export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
                 ? response?.map((item, index) =>
                     <Card key={index}>
                         <CardHeader>
-                            <CardTitle>{item.title}</CardTitle>
+                            <CardTitle>{item.heading}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p>{item.content}</p>
+                            <p>{item.description}</p>
                         </CardContent>
                     </Card>)
                 : (isLoading ? <LoadingSpinner /> : null)
