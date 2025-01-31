@@ -8,7 +8,7 @@ interface LayoutAwareProps {
 }
 
 export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
-    
+
     const [response, setResponse] = useState<string[] | null>(null);
 
     useEffect(() => {
@@ -22,6 +22,6 @@ export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
         }
     }, [searchBarValue]);
 
-    return <div>{response}</div>;
+    return response?.map((item, index) => <div key={index}>{item}</div>);
 
 }
