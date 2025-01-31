@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Xebia X-AI",
+  title: "Xebia XK-AI",
   description: "Context Aware UI powered by Xebia implemented with AI.",
 };
 
