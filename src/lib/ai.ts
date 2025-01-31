@@ -36,7 +36,17 @@ function loadJsonFile(filePath: string): any {
 async function requestContent(query: string = ""): Promise<Document[]> {
     const data = loadJsonFile("data/data.json")
     const contentSelected = await client.chat.completions.create({
-        messages: [{ role: "user", content: `This is your knowledge: ${JSON.stringify(data)}. Answer the question: ${query} from your knowledge base. Return multiple documents, by splitting each section into the required formating. If you cannot find any matching information, return heading: Nothing found and a desscription saying "Cannot find any matching information about 'query'.` }],
+        messages: [
+            { 
+                role: "user", 
+                content: `
+                This is your knowledge: ${JSON.stringify(data)}.
+                
+                Answer the question: ${query} from your knowledge base. 
+                
+                Return multiple documents, by splitting each section into the required formating. Whenever there is a new concept put that into a new document.
+                
+                If you cannot find any matching information, return heading: Nothing found and a desscription saying "Cannot find any matching information about 'query', please try again.` }],
         model: "gpt-4o",
         response_model: {
             schema: documentSchema,
