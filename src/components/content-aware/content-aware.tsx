@@ -16,7 +16,12 @@ export function ContentAware() {
         setSearchValue(value);
     };
     return <div>
-        <SearchBar onSearch={handleSearchChange} />
-        <LayoutAware searchBarValue={searchValue} />
+        <div className="w-full text-center mb-4">
+            <p className="italic">How can we help you today?</p>
+        </div>
+        <div className='w-full flex justify-center m-4'>
+            <SearchBar onSearch={handleSearchChange} />
+        </div>
+        <div><LayoutAware searchBarValue={searchValue} /></div>
     </div>;
 }

@@ -47,7 +47,7 @@ export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
                             <p>{item.description}</p>
                         </CardContent>
                     </Card>)
-                : (isLoading ? <LoadingSpinner /> : null)
+                : (isLoading ? <div className='w-full flex justify-center'><LoadingSpinner size={64} /> </div>: null)
         }
     </div>
 
