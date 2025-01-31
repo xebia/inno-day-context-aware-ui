@@ -4,6 +4,9 @@ import "dotenv/config"
 import Instructor from "@instructor-ai/instructor";
 import OpenAI from "openai"
 import { z } from "zod"
+import path from "path";
+import fs from "fs";
+import { Entry } from "./types/Entry";
 
 const oai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY ?? undefined,
@@ -15,29 +18,38 @@ const client = Instructor({
     mode: "FUNCTIONS"
 })
 
-const UserSchema = z.object({
-    // Description will be used in the prompt
-    age: z.number().describe("The age of the user"),
-    name: z.string().describe("The name of the user")
+const entry = z.object({
+    title: z.string(),
+    content: z.string()
 })
 
-const responseSchema = z.object({
-    components: z.array(z.string()).describe("The list of components names")
+
+const entrySchema = z.object({
+   entries: z.array(entry)
 })
 
-async function requestContent(query: string = ""): Promise<string[]> {
+
+
+function loadJsonFile(filePath: string): any {
+    const absolutePath = path.resolve(filePath);
+    const fileContent = fs.readFileSync(absolutePath, 'utf-8');
+    return JSON.parse(fileContent);
+}
+
+async function requestContent(query: string = ""): Promise<Entry[]> {
+    const data = loadJsonFile("data/data.json")
     const contentSelected = await client.chat.completions.create({
-        messages: [{ role: "user", content: `Here is the list of available components: [company_values, customer_cases, about]. Select 2 , based on the query string: ${query}` }],
+        messages: [{ role: "user", content: `This is your knowlege: ${JSON.stringify(data)}. Return the entries that best match the query: ${query}, in order of relevance.` }],
         model: "gpt-4o",
         response_model: {
-            schema: responseSchema,
+            schema: entrySchema,
             name: "response"
         },
         max_retries: 3,
     })
 
     console.log(contentSelected)
-    return contentSelected.components
+    return contentSelected.entries
     // { age: 30, name: "Jason Liu" }
 }
 

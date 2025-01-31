@@ -8,8 +8,6 @@ import { LayoutAware } from '@/components/content-aware/layout-aware';
 import { useState } from 'react';
 
 
-
-
 export function ContentAware() {
 
     const [searchValue, setSearchValue] = useState("");

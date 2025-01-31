@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import requestContent from '../../lib/ai';
+import { Entry } from '@/lib/types/Entry';
 
 interface LayoutAwareProps {
     searchBarValue?: string;
@@ -9,7 +10,7 @@ interface LayoutAwareProps {
 
 export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
 
-    const [response, setResponse] = useState<string[] | null>(null);
+    const [response, setResponse] = useState<Entry[] | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +23,10 @@ export function LayoutAware({ searchBarValue }: LayoutAwareProps) {
         }
     }, [searchBarValue]);
 
-    return response?.map((item, index) => <div key={index}>{item}</div>);
+    return response?.map((item, index) => 
+    <div key={index}>
+        <h1 className="text-center text-4xl" >{item.title}</h1>
+        <p>{item.content}</p>
+    </div>);
 
 }
